@@ -1,6 +1,6 @@
-import java.math.BigDecimal;
-
 import java.awt.*;
+import java.text.DecimalFormat;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -15,7 +15,7 @@ public class Tela extends JFrame {
     private JButton jb1, jb2, jb3, jbElevado3, jbMais, jb0, jbPonto, jbFatorial, jbPotencia10, jbIgual;
 
     public Tela() {
-        painelPrincipal = new JPanel(new BorderLayout(5,5));
+        painelPrincipal = new JPanel(new BorderLayout());
         painelBotoes = new JPanel(new GridLayout(5,5,5,5));
         jtfTextoConta = new JTextField();
         inicializaBotoes();
@@ -52,12 +52,11 @@ public class Tela extends JFrame {
     public void configurarJanela() {
         setVisible(true);
         setTitle("Lista 3");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(450,360);
         setResizable(false);
         setLocation(600, 300);
-        add(painelPrincipal);
         configurarPainelPrincipal();
+        add(painelPrincipal);
     }
 
     private void configurarPainelBotoes(){
@@ -90,12 +89,13 @@ public class Tela extends JFrame {
         painelBotoes.add(jbIgual);
 
         painelBotoes.setPreferredSize(new Dimension(400,250));
+
+        painelPrincipal.add(painelBotoes, BorderLayout.SOUTH);
     }
 
     private void configurarPainelPrincipal() {
         configurarPainelBotoes();
         configurarTextField();
-        painelPrincipal.add(painelBotoes, BorderLayout.SOUTH);
         painelPrincipal.setBorder(new EmptyBorder(10,10,10,10)); // Cria uma borda vazia, como uma "margem"
     }
     
@@ -106,6 +106,7 @@ public class Tela extends JFrame {
         jtfTextoConta.setFont(new Font("Arial", Font.PLAIN, 20));
         jtfTextoConta.setBackground(Color.WHITE);
         painelPrincipal.add(jtfTextoConta, BorderLayout.NORTH);
+
     }
 
     private void configuraFuncoesBotoes(){
@@ -113,10 +114,10 @@ public class Tela extends JFrame {
         configuraBotaoLimpar();
         configuraBotaoSinal();
         configuraBotaoIgual();
+        configuraBotaoZero();
     }
 
     private void configuraBotoesSimples(){
-        adicionarAcaoTexto(jb0, "0");
         adicionarAcaoTexto(jb1, "1");
         adicionarAcaoTexto(jb2, "2");
         adicionarAcaoTexto(jb3, "3");
@@ -137,9 +138,9 @@ public class Tela extends JFrame {
         adicionarAcaoTexto(jbElevado2, "^2");
         adicionarAcaoTexto(jbElevado3, "^3");
         adicionarAcaoTexto(jbElevadoY, "^");
+        adicionarAcaoTexto(jbPotencia10, "10^");
         adicionarAcaoTexto(jbRaiz, "√");
 
-        adicionarAcaoTexto(jbPotencia10, "10^");
         adicionarAcaoTexto(jbFatorial, "!");
     }
 
@@ -159,102 +160,55 @@ public class Tela extends JFrame {
         });
     }
 
-    private void adicionarAcaoTexto(JButton botao, String texto){
-        botao.addActionListener(e -> {
-            jtfTextoConta.setText(jtfTextoConta.getText() + texto);
+    private void configuraBotaoZero(){
+        jb0.addActionListener(e -> {
+            limpaCampoErro();
+            String textoCampo = jtfTextoConta.getText();
+            if(textoCampo.isEmpty()){
+                jtfTextoConta.setText(jtfTextoConta.getText() + "0");
+            }
+            for(int i = textoCampo.length() - 1; i >= 0; i--){
+                Character c = textoCampo.charAt(i);
+                if(c == '.' || (Character.isDigit(c) && c != '0')){ // Caso seja um numero decimal ou um numero > 9 -> 0.0001 ou 10000
+                    jtfTextoConta.setText(jtfTextoConta.getText() + "0");
+                    break;
+                }
+
+                if ("+-*/^%".indexOf(c) != -1) { // Parar no operador, pois deixa de ser o mesmo numero se continuar
+                    if(textoCampo.length() - 1 == i){ // Se o primeiro digito for um operador, adiciona o zero -> 1.2 + 0
+                        jtfTextoConta.setText(jtfTextoConta.getText() + "0");
+                    } 
+                    break;
+                }
+            }
         });
     }
+
+    private void adicionarAcaoTexto(JButton botao, String texto){
+        botao.addActionListener(e -> {
+            limpaCampoErro();
+            jtfTextoConta.setText(jtfTextoConta.getText() + texto);
+        });
+    }   
 
     private void configuraBotaoIgual() {
         jbIgual.addActionListener(e -> {
             String expressao = jtfTextoConta.getText();
             try {
-                double resultado = calculaExpressao(expressao);
-                String resultadoStr = new BigDecimal(resultado).toPlainString(); // Mostra o valor sem o notações cientificas 4.8392E8
-                jtfTextoConta.setText(resultadoStr);
+                Double resultado = Calculadora.calculaExpressao(expressao);
+                DecimalFormat df = new DecimalFormat("#.###############"); // Evitando problemas como 0.1 + 0.2 = 0.30000000000000004;
+                jtfTextoConta.setText(df.format(resultado).replace(",", ".")); // Transformando o resultado 0,3 em 0.3
             } catch (Exception ex) {
                 jtfTextoConta.setText("Erro: " + ex.getMessage());
             }
         });
     }
-    
-    private double calculaExpressao(String expr) throws Exception {
-        expr = expr.replaceAll("\\s+", ""); // Remove espaços em branco
-        return calculaSomaSubtracao(expr);
-    }
-    
-    private double calculaSomaSubtracao(String expr) throws Exception {
-        int index = acharOperador(expr, '+', '-');
-        if (index != -1) {
-            char op = expr.charAt(index);
-            double esquerda = 0; // Caso a parte da esquerda seja vazia, coloca-se o valor de 0, para casos de numeros negativos
-            if(!expr.substring(0, index).isEmpty()){
-                esquerda = calculaSomaSubtracao(expr.substring(0, index));
-            }
-            double direita = calculaMultiplicacaoDivisao(expr.substring(index + 1)); 
-            if (op == '+') return esquerda + direita;
-            else return esquerda - direita;
+
+    private void limpaCampoErro(){
+        if(jtfTextoConta.getText().startsWith("Erro:")){
+            jtfTextoConta.setText("");
         }
-        return calculaMultiplicacaoDivisao(expr);
-    }
-    
-    private double calculaMultiplicacaoDivisao(String expr) throws Exception {
-        int index = acharOperador(expr, '*', '/', '%'); 
-        if (index != -1) {
-            char op = expr.charAt(index);
-            double esquerda = calculaMultiplicacaoDivisao(expr.substring(0, index));
-            double direita = calculaPotencia(expr.substring(index + 1));
-            if (op == '*') return esquerda * direita;
-            else if(op == '%') return esquerda / 100 * direita; // X%Y = (X/100) * Y
-            else {
-                if (direita == 0) throw new ArithmeticException("Divisão por zero"); // Impossível dividir por 0
-                return esquerda / direita;
-            }
-        }
-        return calculaPotencia(expr);
-    }
-    
-    private double calculaPotencia(String expr) throws Exception {
-        int index = acharOperador(expr, '^', '√');
-        if (index != -1) {
-            char op = expr.charAt(index);
-            double esquerda = 1; // Caso a parte da esquerda seja vazia, coloca-se o valor de 1, para casos de somente raiz √25 = 1*√25
-            if(!expr.substring(0, index).isEmpty()){
-                esquerda = calculaSomaSubtracao(expr.substring(0, index));
-            }
-            double direita = calculaPotencia(expr.substring(index + 1));
-            if(op == '^') return Math.pow(esquerda, direita);
-            else return esquerda * Math.sqrt(direita);
-        }
-        return calculaNumero(expr);
-    }
-    
-    private double calculaNumero(String expr) throws Exception {
-        if (expr.endsWith("!")) {
-            double valor = calculaNumero(expr.substring(0, expr.length() - 1));
-            return fatorial(valor);
-        }
-        return Double.parseDouble(expr);
     }
 
-    private double fatorial(double n) throws Exception {
-        if (n < 0 || n != Math.floor(n)) throw new Exception("Fatorial inválido (negativo/decimal)"); // Impossivel calcular fatorial de negativo ou decimal
-        double resultado = 1;
-        for (int i = 2; i <= (int)n; i++) {
-            resultado *= i;
-        }
-        return resultado;
-    }
-    
-    private int acharOperador(String expr, char... operadores) {
-        for (int i = expr.length() - 1; i >= 0; i--) {
-            char c = expr.charAt(i);
-            for (char op : operadores) { 
-                if(op == '-' && (i == 0 || "+-*/^%".indexOf(expr.charAt(i - 1)) != -1)) continue; // Caso o operador de menos não seja uma operação e sim um sinal do numero                
-                if (c == op) return i;
-            }
-        }
-        return -1;
-    }
 }
 
