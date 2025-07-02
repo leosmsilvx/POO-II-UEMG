@@ -3,7 +3,6 @@ package view;
 import controller.FornecedorController;
 import controller.ProdutoController;
 import java.util.ArrayList;
-import java.util.Arrays;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Fornecedor;
@@ -12,9 +11,7 @@ import model.Produto;
 public class ProdutoView extends javax.swing.JInternalFrame {
 
     private Integer linha = -1;
-    
-    private ArrayList<Fornecedor> listaFornecedores;
-    
+        
     public ProdutoView() {
         initComponents();
         preencherComboFornecedores();
@@ -36,18 +33,12 @@ public class ProdutoView extends javax.swing.JInternalFrame {
             modeloTabela.setRowCount(0);
             
             for (Produto p: lista) {
-                Fornecedor resultado = listaFornecedores.stream()
-                    .filter(obj -> obj.getIdFornecedor() == p.getIdFornecedor())
-                    .findFirst().orElse(null);
-                if(resultado == null){
-                    continue;
-                }
-                modeloTabela.addRow(new String[]{ 
-                    String.valueOf(p.getIdProduto()),
+                modeloTabela.addRow(new Object[]{ 
+                        p.getIdProduto(),
                         p.getDescricao(),
-                        p.getValor().toString(),
-                        p.getEstoque().toString(),
-                        resultado.toString()
+                        p.getValor(),
+                        p.getEstoque(),
+                        p.getFornecedor()
                 });
             }
         }
@@ -55,7 +46,7 @@ public class ProdutoView extends javax.swing.JInternalFrame {
     
     private void preencherComboFornecedores(){
         FornecedorController controller = new FornecedorController();
-        listaFornecedores = controller.selectAll();
+        ArrayList<Fornecedor> listaFornecedores = controller.selectAll();
         listaFornecedores.forEach(f -> {
             jcbFornecedor.addItem(f);
         });
@@ -87,25 +78,7 @@ public class ProdutoView extends javax.swing.JInternalFrame {
         jtxDescricao.setText(p.getDescricao());
         jtxValor.setText(p.getValor().toString());
         jtxEstoque.setText(p.getEstoque().toString());
-        jcbFornecedor.setSelectedItem(buscaFornecedorListaPorId(p.getIdFornecedor()));
-    }
-    
-    private Fornecedor buscaFornecedorListaPorId(Integer idFornecedor){
-        for(Fornecedor f : listaFornecedores){
-            if(f.getIdFornecedor() == idFornecedor){
-                return f;
-            }
-        }
-        return null;
-    }
-    
-    private Fornecedor buscaFornecedorListaPorCnpj(String cnpj){
-        for(Fornecedor f : listaFornecedores){
-            if(f.getCnpj().equals(cnpj)){
-                return f;
-            }
-        }
-        return null;
+        jcbFornecedor.setSelectedItem(p.getFornecedor());
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -115,10 +88,7 @@ public class ProdutoView extends javax.swing.JInternalFrame {
         jlDescricao = new javax.swing.JLabel();
         jlValor = new javax.swing.JLabel();
         jlEstoque = new javax.swing.JLabel();
-        jtxId = new javax.swing.JTextField();
         jtxDescricao = new javax.swing.JTextField();
-        jtxValor = new javax.swing.JTextField();
-        jtxEstoque = new javax.swing.JTextField();
         jbPesquisar = new javax.swing.JButton();
         jbNovo = new javax.swing.JButton();
         jbSalvar = new javax.swing.JButton();
@@ -128,6 +98,9 @@ public class ProdutoView extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jtProdutos = new javax.swing.JTable();
         jcbFornecedor = new javax.swing.JComboBox<Fornecedor>();
+        jtxValor = new javax.swing.JFormattedTextField();
+        jtxEstoque = new javax.swing.JFormattedTextField();
+        jtxId = new javax.swing.JFormattedTextField();
 
         jlId.setText("Código:");
 
@@ -136,12 +109,6 @@ public class ProdutoView extends javax.swing.JInternalFrame {
         jlValor.setText("Valor:");
 
         jlEstoque.setText("Estoque:");
-
-        jtxId.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtxIdActionPerformed(evt);
-            }
-        });
 
         jbPesquisar.setText("Pesquisar");
         jbPesquisar.addActionListener(new java.awt.event.ActionListener() {
@@ -194,7 +161,7 @@ public class ProdutoView extends javax.swing.JInternalFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -214,6 +181,12 @@ public class ProdutoView extends javax.swing.JInternalFrame {
             }
         });
 
+        jtxValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+
+        jtxEstoque.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+
+        jtxId.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -229,10 +202,10 @@ public class ProdutoView extends javax.swing.JInternalFrame {
                             .addComponent(jlEstoque))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtxId)
                             .addComponent(jtxDescricao)
                             .addComponent(jtxValor)
-                            .addComponent(jtxEstoque))
+                            .addComponent(jtxEstoque)
+                            .addComponent(jtxId))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jbPesquisar)
@@ -260,8 +233,8 @@ public class ProdutoView extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlId)
-                    .addComponent(jtxId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbPesquisar))
+                    .addComponent(jbPesquisar)
+                    .addComponent(jtxId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlDescricao)
@@ -300,10 +273,6 @@ public class ProdutoView extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jtxIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxIdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtxIdActionPerformed
 
     private void jbPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPesquisarActionPerformed
         Produto prod =  new Produto();
@@ -345,11 +314,12 @@ public class ProdutoView extends javax.swing.JInternalFrame {
         jtxValor.setEditable(true);
         jtxEstoque.setEditable(true);
         jcbFornecedor.setEnabled(true);
+        jtxId.setValue("");
     }//GEN-LAST:event_jbNovoActionPerformed
 
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
         String descricao = jtxDescricao.getText();
-        String valor = jtxValor.getText();
+        String valor = jtxValor.getText().replace(".", "").replace(",", ".");
         String estoque = jtxEstoque.getText();
         Fornecedor fornecedor = (Fornecedor) jcbFornecedor.getSelectedItem();
         if ((descricao.isEmpty()) || (valor.isEmpty()) || (estoque.isEmpty()) || fornecedor == null) {
@@ -360,7 +330,7 @@ public class ProdutoView extends javax.swing.JInternalFrame {
             prod.setDescricao(descricao);
             prod.setValor(Float.parseFloat(valor));
             prod.setEstoque(Integer.parseInt(estoque));
-            prod.setIdFornecedor(fornecedor.getIdFornecedor());
+            prod.setFornecedor(fornecedor);
             ProdutoController controller = new ProdutoController();
             if (controller.insert(prod)) {
                 JOptionPane.showMessageDialog(this, "Produto Inserido com Sucesso!");
@@ -377,7 +347,7 @@ public class ProdutoView extends javax.swing.JInternalFrame {
     private void jbEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEditarActionPerformed
         int id = Integer.parseInt(jtxId.getText());
         String descricao = jtxDescricao.getText();
-        String valor = jtxValor.getText();
+        String valor = jtxValor.getText().replace(".", "").replace(",", ".");
         String estoque = jtxEstoque.getText();
         Fornecedor fornecedor = (Fornecedor) jcbFornecedor.getSelectedItem();
         if ((descricao.isEmpty()) || (valor.isEmpty()) || (estoque.isEmpty()) || fornecedor == null) {
@@ -389,7 +359,7 @@ public class ProdutoView extends javax.swing.JInternalFrame {
             prod.setDescricao(descricao);
             prod.setValor(Float.parseFloat(valor));
             prod.setEstoque(Integer.parseInt(estoque));
-            prod.setIdFornecedor(fornecedor.getIdFornecedor());
+            prod.setFornecedor(fornecedor);
             ProdutoController controller = new ProdutoController();
             if(controller.edit(prod)) {
                 JOptionPane.showMessageDialog(this, "Atualizado com sucesso!");
@@ -433,8 +403,8 @@ public class ProdutoView extends javax.swing.JInternalFrame {
             jtxDescricao.setText(jtProdutos.getValueAt(linha, 1).toString());
             jtxValor.setText(jtProdutos.getValueAt(linha, 2).toString());
             jtxEstoque.setText(jtProdutos.getValueAt(linha, 3).toString());
-            String cnpj = jtProdutos.getValueAt(linha, 4).toString().split("/")[0];
-            jcbFornecedor.setSelectedItem(buscaFornecedorListaPorCnpj(cnpj));
+            Fornecedor f = (Fornecedor) jtProdutos.getValueAt(linha, 4);
+            jcbFornecedor.setSelectedItem(f);
             jbNovo.setEnabled(false);
             jbSalvar.setEnabled(false);
             jbEditar.setEnabled(true);
@@ -469,8 +439,8 @@ public class ProdutoView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jlValor;
     private javax.swing.JTable jtProdutos;
     private javax.swing.JTextField jtxDescricao;
-    private javax.swing.JTextField jtxEstoque;
-    private javax.swing.JTextField jtxId;
-    private javax.swing.JTextField jtxValor;
+    private javax.swing.JFormattedTextField jtxEstoque;
+    private javax.swing.JFormattedTextField jtxId;
+    private javax.swing.JFormattedTextField jtxValor;
     // End of variables declaration//GEN-END:variables
 }

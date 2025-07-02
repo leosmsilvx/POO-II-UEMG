@@ -19,6 +19,10 @@ public class Fornecedor {
         this.razaoSocial = "";
         this.endereco = "";
     }
+    
+    public Fornecedor(Integer idFornecedor) {
+        this.idFornecedor = idFornecedor;
+    }
 
     public Integer getIdFornecedor() {
         return idFornecedor;
@@ -55,5 +59,13 @@ public class Fornecedor {
     @Override
     public String toString() {
         return cnpj + "/" + razaoSocial;
+    }
+    
+    @Override
+    public boolean equals(Object obj){
+        if(this == obj) return true;
+        if(obj == null || this.getClass() != obj.getClass()) return false;
+        Fornecedor other = (Fornecedor) obj;
+        return this.idFornecedor.equals(other.getIdFornecedor());
     }
 }

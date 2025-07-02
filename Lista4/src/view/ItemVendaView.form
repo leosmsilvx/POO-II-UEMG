@@ -40,20 +40,39 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="jlId" min="-2" max="-2" attributes="0"/>
-                              <Component id="jlRazaoSocial" min="-2" max="-2" attributes="0"/>
-                              <Component id="jlCnpj" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="jlEndereco" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="jlDtVenda" min="-2" max="-2" attributes="0"/>
+                              <Component id="jlCliente" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="jlQuantidade" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jtxCnpj" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jtxRazaoSocial" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jtxEndereco" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jtxCliente" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jtxDtVenda" max="32767" attributes="0"/>
+                              <Component id="jtxQuantidade" max="32767" attributes="0"/>
                               <Component id="jtxId" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jbPesquisar" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="202" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="jbPesquisar" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="202" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="jlPagamento" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jlProduto" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="jcbProduto" min="-2" pref="193" max="-2" attributes="0"/>
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Component id="jtxPagamento" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
@@ -87,18 +106,26 @@
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jlCnpj" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jtxCnpj" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jlCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jtxCliente" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jcbProduto" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jlProduto" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                          <Component id="jlPagamento" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jtxPagamento" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jlDtVenda" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jtxDtVenda" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jlRazaoSocial" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jtxRazaoSocial" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jlEndereco" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jtxEndereco" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jlQuantidade" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jtxQuantidade" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -121,26 +148,22 @@
             <Property name="text" type="java.lang.String" value="C&#xf3;digo:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jlCnpj">
+        <Component class="javax.swing.JLabel" name="jlCliente">
           <Properties>
-            <Property name="text" type="java.lang.String" value="CNPJ:"/>
+            <Property name="text" type="java.lang.String" value="Cliente:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jlRazaoSocial">
+        <Component class="javax.swing.JLabel" name="jlDtVenda">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Raz&#xe3;o Social:"/>
+            <Property name="text" type="java.lang.String" value="Data venda:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jlEndereco">
+        <Component class="javax.swing.JLabel" name="jlQuantidade">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Endere&#xe7;o:"/>
+            <Property name="text" type="java.lang.String" value="Quantidade:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jtxCnpj">
-        </Component>
-        <Component class="javax.swing.JTextField" name="jtxRazaoSocial">
-        </Component>
-        <Component class="javax.swing.JTextField" name="jtxEndereco">
+        <Component class="javax.swing.JTextField" name="jtxCliente">
         </Component>
         <Component class="javax.swing.JButton" name="jbPesquisar">
           <Properties>
@@ -197,32 +220,91 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="jtFornecedores">
+            <Component class="javax.swing.JTable" name="jtItemVenda">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="4" rowCount="0">
-                    <Column editable="true" title="C&#xf3;digo" type="java.lang.Integer"/>
-                    <Column editable="true" title="CNPJ" type="java.lang.String"/>
-                    <Column editable="true" title="Raz&#xe3;o Social" type="java.lang.String"/>
-                    <Column editable="true" title="Endere&#xe7;o" type="java.lang.String"/>
+                    <Column editable="false" title="C&#xf3;digo" type="java.lang.Integer"/>
+                    <Column editable="false" title="Venda" type="java.lang.Object"/>
+                    <Column editable="false" title="Produto" type="java.lang.Object"/>
+                    <Column editable="false" title="Quantidade" type="java.lang.Integer"/>
                   </Table>
+                </Property>
+                <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                  <TableColumnModel selectionModel="0">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                  </TableColumnModel>
+                </Property>
+                <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+                  <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jtFornecedoresMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jtItemVendaMouseClicked"/>
               </Events>
             </Component>
           </SubComponents>
         </Container>
+        <Component class="javax.swing.JComboBox" name="jcbProduto">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jcbProdutoActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JComboBox&lt;Fornecedor&gt;()"/>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Produto&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JFormattedTextField" name="jtxDtVenda">
+          <Properties>
+            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+              <Format subtype="1" type="1"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JFormattedTextField" name="jtxQuantidade">
+          <Properties>
+            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+              <Format format="#0" subtype="-1" type="0"/>
+            </Property>
+          </Properties>
+        </Component>
         <Component class="javax.swing.JFormattedTextField" name="jtxId">
           <Properties>
             <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
               <Format format="#0" subtype="-1" type="0"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jtxIdActionPerformed"/>
-          </Events>
+        </Component>
+        <Component class="javax.swing.JTextField" name="jtxPagamento">
+        </Component>
+        <Component class="javax.swing.JLabel" name="jlPagamento">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Pagamento:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jlProduto">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Produto:"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

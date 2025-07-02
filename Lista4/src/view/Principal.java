@@ -1,7 +1,5 @@
 package view;
 
-import javax.swing.JOptionPane;
-
 public class Principal extends javax.swing.JFrame {
 
     /**
@@ -11,26 +9,10 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
     }
     
-    private void abrirOuFocarView(javax.swing.JInternalFrame viewParaAbrir) {
-        for (javax.swing.JInternalFrame frame : areaDeTrabalho.getAllFrames()) {
-            if (frame.getClass().equals(viewParaAbrir.getClass())) {
-                try {
-                    frame.setSelected(true);
-                    frame.toFront();
-                    return;
-                } catch (java.beans.PropertyVetoException e) {
-                    JOptionPane.showMessageDialog(this, "Erro ao focar na janela: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        }
-
+    private void abrirOuFocarView(javax.swing.JInternalFrame viewParaAbrir) {        
+        areaDeTrabalho.removeAll();
         areaDeTrabalho.add(viewParaAbrir);
         viewParaAbrir.setVisible(true);
-        try {
-            viewParaAbrir.setSelected(true);
-        } catch (java.beans.PropertyVetoException e) {
-            JOptionPane.showMessageDialog(this, "Erro ao exibir a janela: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        }
     }
 
     /**
@@ -46,7 +28,8 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jmiFornecedor = new javax.swing.JMenuItem();
-        jmiVendas = new javax.swing.JMenuItem();
+        jmiProduto = new javax.swing.JMenuItem();
+        jmiItemVenda = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,13 +54,21 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu1.add(jmiFornecedor);
 
-        jmiVendas.setText("Vendas");
-        jmiVendas.addActionListener(new java.awt.event.ActionListener() {
+        jmiProduto.setText("Produto");
+        jmiProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiVendasActionPerformed(evt);
+                jmiProdutoActionPerformed(evt);
             }
         });
-        jMenu1.add(jmiVendas);
+        jMenu1.add(jmiProduto);
+
+        jmiItemVenda.setText("Venda");
+        jmiItemVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiItemVendaActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jmiItemVenda);
 
         jMenuBar1.add(jMenu1);
 
@@ -99,13 +90,24 @@ public class Principal extends javax.swing.JFrame {
 
     private void jmiFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiFornecedorActionPerformed
         FornecedorView fornecedor = new FornecedorView();
-        abrirOuFocarView(fornecedor);
+        areaDeTrabalho.removeAll();
+        fornecedor.setVisible(true);
+        areaDeTrabalho.add(fornecedor);
     }//GEN-LAST:event_jmiFornecedorActionPerformed
 
-    private void jmiVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiVendasActionPerformed
+    private void jmiProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiProdutoActionPerformed
         ProdutoView vendas = new ProdutoView();;
-        abrirOuFocarView(vendas);
-    }//GEN-LAST:event_jmiVendasActionPerformed
+        areaDeTrabalho.removeAll();
+        vendas.setVisible(true);
+        areaDeTrabalho.add(vendas);
+    }//GEN-LAST:event_jmiProdutoActionPerformed
+
+    private void jmiItemVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiItemVendaActionPerformed
+        ItemVendaView view = new ItemVendaView();;
+        areaDeTrabalho.removeAll();
+        view.setVisible(true);
+        areaDeTrabalho.add(view);
+    }//GEN-LAST:event_jmiItemVendaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -147,6 +149,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jmiFornecedor;
-    private javax.swing.JMenuItem jmiVendas;
+    private javax.swing.JMenuItem jmiItemVenda;
+    private javax.swing.JMenuItem jmiProduto;
     // End of variables declaration//GEN-END:variables
 }

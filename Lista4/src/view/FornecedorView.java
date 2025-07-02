@@ -30,7 +30,7 @@ public class FornecedorView extends javax.swing.JInternalFrame {
             modeloTabela.setRowCount(0);
             for (Fornecedor f: lista) {
                 modeloTabela.addRow(new String[]{ 
-                    String.valueOf(f.getIdFornecedor()),
+                    f.getIdFornecedor().toString(),
                     f.getCnpj(),
                     f.getRazaoSocial(),
                     f.getEndereco()});
@@ -71,7 +71,6 @@ public class FornecedorView extends javax.swing.JInternalFrame {
         jlCnpj = new javax.swing.JLabel();
         jlRazaoSocial = new javax.swing.JLabel();
         jlEndereco = new javax.swing.JLabel();
-        jtxId = new javax.swing.JTextField();
         jtxCnpj = new javax.swing.JTextField();
         jtxRazaoSocial = new javax.swing.JTextField();
         jtxEndereco = new javax.swing.JTextField();
@@ -83,6 +82,7 @@ public class FornecedorView extends javax.swing.JInternalFrame {
         jbFechar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtFornecedores = new javax.swing.JTable();
+        jtxId = new javax.swing.JFormattedTextField();
 
         jlId.setText("Código:");
 
@@ -91,12 +91,6 @@ public class FornecedorView extends javax.swing.JInternalFrame {
         jlRazaoSocial.setText("Razão Social:");
 
         jlEndereco.setText("Endereço:");
-
-        jtxId.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtxIdActionPerformed(evt);
-            }
-        });
 
         jbPesquisar.setText("Pesquisar");
         jbPesquisar.addActionListener(new java.awt.event.ActionListener() {
@@ -163,6 +157,13 @@ public class FornecedorView extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(jtFornecedores);
 
+        jtxId.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        jtxId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtxIdActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -178,10 +179,10 @@ public class FornecedorView extends javax.swing.JInternalFrame {
                             .addComponent(jlEndereco))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtxId)
                             .addComponent(jtxCnpj)
                             .addComponent(jtxRazaoSocial)
-                            .addComponent(jtxEndereco))
+                            .addComponent(jtxEndereco)
+                            .addComponent(jtxId))
                         .addGap(18, 18, 18)
                         .addComponent(jbPesquisar)
                         .addGap(202, 202, 202))
@@ -207,8 +208,8 @@ public class FornecedorView extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlId)
-                    .addComponent(jtxId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbPesquisar))
+                    .addComponent(jbPesquisar)
+                    .addComponent(jtxId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlCnpj)
@@ -247,10 +248,6 @@ public class FornecedorView extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jtxIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxIdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtxIdActionPerformed
-
     private void jbPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPesquisarActionPerformed
         Fornecedor fornecedor =  new Fornecedor();
         if(jtxId.getText().isEmpty()) {
@@ -261,7 +258,7 @@ public class FornecedorView extends javax.swing.JInternalFrame {
             FornecedorController controller = new FornecedorController();
             fornecedor = controller.selectByIdFornecedor(fornecedor.getIdFornecedor());
             if (fornecedor == null) {
-                JOptionPane.showMessageDialog(this, "Fornecedor não enconrado.", "Retorno BD", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Fornecedor não encontrado.", "Retorno BD", JOptionPane.ERROR_MESSAGE);
             }
             else {
                 preencheCampos(fornecedor);
@@ -287,6 +284,7 @@ public class FornecedorView extends javax.swing.JInternalFrame {
         jtxCnpj.setEditable(true);
         jtxRazaoSocial.setEditable(true);
         jtxEndereco.setEditable(true);
+        jtxId.setValue("");
     }//GEN-LAST:event_jbNovoActionPerformed
 
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
@@ -384,6 +382,10 @@ public class FornecedorView extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jtFornecedoresMouseClicked
 
+    private void jtxIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtxIdActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
@@ -401,7 +403,7 @@ public class FornecedorView extends javax.swing.JInternalFrame {
     private javax.swing.JTable jtFornecedores;
     private javax.swing.JTextField jtxCnpj;
     private javax.swing.JTextField jtxEndereco;
-    private javax.swing.JTextField jtxId;
+    private javax.swing.JFormattedTextField jtxId;
     private javax.swing.JTextField jtxRazaoSocial;
     // End of variables declaration//GEN-END:variables
 }
