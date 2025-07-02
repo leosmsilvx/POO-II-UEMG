@@ -77,6 +77,7 @@ public class FornecedorController {
         c.desconectar();
         return retorno;
     }
+
     public Fornecedor selectByIdFornecedor(Integer idFornecedor) {
         Conexao c = new Conexao();
         c.conectar();
@@ -105,6 +106,7 @@ public class FornecedorController {
         c.desconectar();
         return retorno;
     }
+    
     public ArrayList<Fornecedor> selectAll(){
         Conexao c = new Conexao();
         c.conectar();

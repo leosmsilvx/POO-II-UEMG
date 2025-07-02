@@ -4,6 +4,7 @@ import model.Produto;
 import java.util.ArrayList;
 import util.Conexao;
 import java.sql.*;
+import model.Fornecedor;
 
 public class ProdutoController {
 
@@ -21,7 +22,7 @@ public class ProdutoController {
             ps.setString(1, produto.getDescricao());
             ps.setInt(2, produto.getEstoque());
             ps.setFloat(3, produto.getValor());
-            ps.setInt(4, produto.getIdFornecedor());
+            ps.setInt(4, produto.getFornecedor().getIdFornecedor());
 
             if (!ps.execute())
                 retorno = true;
@@ -47,7 +48,7 @@ public class ProdutoController {
             ps.setString(1, produto.getDescricao());
             ps.setInt(2, produto.getEstoque());
             ps.setFloat(3, produto.getValor());
-            ps.setInt(4, produto.getIdFornecedor());
+            ps.setInt(4, produto.getFornecedor().getIdFornecedor());
             ps.setInt(5, produto.getIdProduto());
 
             if (!ps.execute())
@@ -85,8 +86,8 @@ public class ProdutoController {
         Conexao c = new Conexao();
         c.conectar();
         
-        String sql = "SELECT * FROM produto " +
-            "WHERE (idproduto = ?)";
+        String sql = "SELECT * FROM produto p INNER JOIN fornecedor f WHERE p.idfornecedor = f.idfornecedor " +
+            "AND p.idproduto = ?";
             
         Produto retorno = null;
         try {
@@ -101,7 +102,12 @@ public class ProdutoController {
                 retorno.setDescricao(result.getString("descricao"));
                 retorno.setEstoque(result.getInt("estoque"));
                 retorno.setValor(result.getFloat("valor"));
-                retorno.setIdFornecedor(result.getInt("idfornecedor"));
+                Fornecedor f = new Fornecedor();
+                f.setIdFornecedor(result.getInt("idfornecedor"));
+                f.setCnpj(result.getString("cnpj"));
+                f.setEndereco(result.getString("endereco"));
+                f.setRazaoSocial(result.getString("razaosocial"));
+                retorno.setFornecedor(f);
             }
         } catch (SQLException e) {
             System.out.println("Erro ao selecionar:" + e.getMessage());
@@ -114,7 +120,7 @@ public class ProdutoController {
         Conexao c = new Conexao();
         c.conectar();
         
-        String sql = "SELECT * FROM produto ";
+        String sql = "SELECT * FROM produto p INNER JOIN fornecedor f WHERE p.idfornecedor = f.idfornecedor";
 
         ArrayList<Produto> retorno = new ArrayList<>();
         try {
@@ -127,8 +133,13 @@ public class ProdutoController {
                 p.setIdProduto(result.getInt("idproduto"));
                 p.setDescricao(result.getString("descricao"));
                 p.setEstoque(result.getInt("estoque"));
-                p.setValor(result.getFloat("valor"));
-                p.setIdFornecedor(result.getInt("idfornecedor"));
+                p.setValor(result.getFloat("valor"));   
+                Fornecedor f = new Fornecedor();
+                f.setIdFornecedor(result.getInt("idfornecedor"));
+                f.setCnpj(result.getString("cnpj"));
+                f.setEndereco(result.getString("endereco"));
+                f.setRazaoSocial(result.getString("razaosocial"));
+                p.setFornecedor(f);
                 retorno.add(p);
             }
         } catch (SQLException e) {
